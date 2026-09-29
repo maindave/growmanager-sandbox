@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const DB_NAME = 'cultivo-energy-db';
+  const DB_NAME = 'cultivo-energy-db-sandbox';
   const STORE = 'relayEvents';
   const CONFIG_KEY = 'flora.energyConfig.v1';
   const DEFAULT_CONFIG = { tariff:150, devices:[{relayId:1,name:'LED Flora 1',watts:350},{relayId:2,name:'Extractor',watts:45},{relayId:3,name:'Calefactor',watts:1000},{relayId:4,name:'Libre',watts:0}] };

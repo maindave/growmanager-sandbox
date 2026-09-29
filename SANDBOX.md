@@ -6,6 +6,7 @@ Este repositorio es el entorno público de pruebas de GrowManager.
 - Supabase: proyecto `GrowManager Sandbox` (`bpjcrfdsftjewjfspjpm`)
 - No contiene ni debe conectarse a datos de producción.
 - No genera ni distribuye APK Android.
+- Usa namespaces propios para sesiones, `localStorage` e IndexedDB.
 - Todo cambio se valida aquí antes de integrarse en `maindave/growmanager`.
 
 ## Flujo de trabajo

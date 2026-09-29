@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const DB_NAME='flora-cultivo-db';
+  const DB_NAME='flora-cultivo-db-sandbox';
   const DB_VERSION=2;
   const STORE_NAMES=Object.freeze(['cultivations','spaces','lots','plants','products','recipes','recipeVersions','activities','remoteCache','syncMeta']);
   const IMMUTABLE_STORES=new Set(['recipeVersions']);
