@@ -11,7 +11,7 @@
 <title>Growmanager Sandbox · Pruebas</title>
 <script src="sandbox-storage.js?v=1"></script>
 <script>document.documentElement.dataset.theme=localStorage.getItem("growmanager.theme")||"dark"</script>
-<link rel="stylesheet" href="style.css?v=20260928-collapse1">
+<link rel="stylesheet" href="style.css?v=20260929-sandbox-ux1">
 </head>
 <body>
 <div class="sandbox-banner" role="status"><strong>SANDBOX</strong><span>Entorno de pruebas · los datos no pertenecen a producción</span></div>
@@ -118,8 +118,9 @@
 <small id="offlineSince">
 </small>
 </div>
+<button id="customizeDashboard" class="secondary-button compact dashboard-customize" type="button">Personalizar inicio</button>
 </div>
-<div class="metrics-grid">
+<div class="metrics-grid" data-dashboard-widget="environment">
 <button class="metric-card metric-history-button temperature" type="button" data-environment-metric="temperature" aria-label="Ver histórico de temperatura de las últimas 24 horas">
 <div class="metric-icon">°</div>
 <div>
@@ -140,11 +141,11 @@
 <section id="appUpdatePanel" class="panel app-update-panel" hidden><div class="app-update-icon">↥</div><div><strong id="appUpdateTitle">Actualización disponible</strong><p id="appUpdateText">Hay una nueva versión de GrowManager.</p></div><button id="downloadAppUpdate" class="primary-button compact" type="button">Actualizar app</button></section>
 <div id="appUpdateMessage" class="message"></div>
 <section id="sensorRecoveryPanel" class="sensor-recovery panel" hidden><div><strong id="sensorRecoveryTitle">El sensor no está respondiendo</strong><p id="sensorRecoveryText">Podés reiniciar el Wemos sin borrar horarios ni configuración.</p></div><button id="sensorRecoveryRestart" class="secondary-button" type="button" data-restart-device>Reiniciar Wemos</button></section>
-<div class="dashboard-focus-grid"><section class="panel dashboard-cultivations-panel">
+<div class="dashboard-focus-grid"><section class="panel dashboard-cultivations-panel" data-dashboard-widget="cultivations">
 <div class="section-heading"><div><p class="eyebrow">CULTIVOS</p><h3>Tandas concurrentes</h3></div><button class="text-button" data-view="agenda">Ver calendario</button></div>
 <div id="dashboardCultivations" class="dashboard-cultivations"></div>
 </section>
-<section class="panel dashboard-agenda-panel">
+<section class="panel dashboard-agenda-panel" data-dashboard-widget="agenda">
 <div class="section-heading">
 <div>
 <p class="eyebrow">AGENDA</p>
@@ -155,11 +156,11 @@
 <div id="dashboardAgenda" class="dashboard-agenda">
 </div>
 </section></div>
-<section id="dashboardSystemsPanel" class="panel dashboard-systems-panel">
+<section id="dashboardSystemsPanel" class="panel dashboard-systems-panel" data-dashboard-widget="systems">
 <div class="section-heading"><div><p class="eyebrow">AMBIENTE EN VIVO</p><h3>Luces y climatización</h3></div><button class="text-button" type="button" data-view="control">Ver control</button></div>
 <div id="dashboardRelays" class="dashboard-systems"></div>
 </section>
-<details class="panel dashboard-collapse">
+<details class="panel dashboard-collapse" data-dashboard-widget="telemetry">
 <summary><span><span class="eyebrow">TELEMETRÍA</span><strong>Dispositivo</strong></span><span class="collapse-hint">Mostrar</span></summary>
 <div class="device-grid collapse-body">
 <div class="detail"><span>Hora del Wemos</span><strong id="deviceTime">—:—</strong><small id="timeSync">Sin datos</small></div>
@@ -169,7 +170,7 @@
 <div class="detail"><span>Sensor de suelo</span><strong id="soilStatus">Deshabilitado</strong></div>
 </div>
 </details>
-<details class="panel dashboard-collapse">
+<details class="panel dashboard-collapse" data-dashboard-widget="energy">
 <summary><span><span class="eyebrow">ENERGÍA</span><strong>Consumo estimado</strong></span><span class="collapse-hint">Mostrar</span></summary>
 <div class="energy-compact-grid collapse-body">
 <div><span>Actual</span><strong id="dashPower">0 W</strong></div>
@@ -178,6 +179,7 @@
 </div>
 <button class="text-button collapse-link" data-view="energy">Ver detalle de energía</button>
 </details>
+<dialog id="dashboardCustomizerDialog" class="app-dialog"><form method="dialog" class="dialog-form dashboard-customizer-form"><div class="dialog-heading"><div><p class="eyebrow">TU INICIO</p><h3>Elegí qué querés ver</h3></div><button class="icon-button" value="cancel" aria-label="Cerrar">×</button></div><p class="form-intro">Podés ocultar paneles para dejar a mano solo la información que usás.</p><div id="dashboardWidgetChoices" class="dashboard-widget-choices"></div><div class="form-actions split"><button id="dashboardRestoreDefaults" class="text-button" type="button">Restaurar</button><button class="primary-button" value="default">Listo</button></div></form></dialog>
 </section>
 <section class="view" data-view-panel="cultivation">
 <div class="page-heading">
@@ -198,9 +200,9 @@
 <div class="agenda-book">
 <section class="agenda-face active" data-agenda-face-panel="events">
 <section id="agendaNotifications" class="panel agenda-notifications" hidden><div><strong id="agendaNotificationCount">0 asignaciones nuevas</strong><p id="agendaNotificationText"></p></div><button id="readAgendaNotifications" class="secondary-button compact" type="button">Marcar leídas</button></section>
-<section class="panel agenda-toolbar"><div class="agenda-month-nav"><button id="agendaPrevMonth" class="secondary-button compact" type="button" aria-label="Mes anterior">‹</button><strong id="agendaMonthTitle">—</strong><button id="agendaNextMonth" class="secondary-button compact" type="button" aria-label="Mes siguiente">›</button><button id="agendaToday" class="text-button" type="button">Hoy</button></div><div class="agenda-filters"><label>Cultivo o lote<select id="agendaRelation"><option value="all">Todos</option></select></label><label>Vista<select id="agendaScope"><option value="all">Todos</option><option value="mine">Asignadas a mí</option></select></label><label>Estado<select id="agendaState"><option value="active">Activos</option><option value="archived">Archivados</option></select></label></div></section>
+<section class="panel agenda-toolbar"><div class="agenda-filters"><label>Cultivo o lote<select id="agendaRelation"><option value="all">Todos</option></select></label><label>Vista<select id="agendaScope"><option value="all">Todos</option><option value="mine">Asignadas a mí</option></select></label><label>Estado<select id="agendaState"><option value="active">Activos</option><option value="archived">Archivados</option></select></label></div></section>
 <details class="panel agenda-upcoming"><summary><span><span class="eyebrow">EVENTOS</span><strong id="agendaListTitle">Próximos eventos</strong></span><span class="collapse-hint">Mostrar</span></summary><div id="agendaList" class="agenda-list collapse-body"></div></details>
-<div class="agenda-layout"><section class="panel agenda-calendar-panel"><div class="agenda-week"><span>Lun</span><span>Mar</span><span>Mié</span><span>Jue</span><span>Vie</span><span>Sáb</span><span>Dom</span></div><div id="agendaCalendar" class="agenda-calendar"></div></section></div>
+<div class="agenda-layout"><section class="panel agenda-calendar-panel"><div class="agenda-calendar-heading"><div class="agenda-month-nav"><button id="agendaPrevMonth" class="secondary-button compact" type="button" aria-label="Mes anterior">‹</button><strong id="agendaMonthTitle">—</strong><button id="agendaNextMonth" class="secondary-button compact" type="button" aria-label="Mes siguiente">›</button><button id="agendaToday" class="text-button" type="button">Hoy</button></div><small>Los inicios se toman de las fechas definidas en Cultivo.</small></div><div class="agenda-week"><span>Lun</span><span>Mar</span><span>Mié</span><span>Jue</span><span>Vie</span><span>Sáb</span><span>Dom</span></div><div id="agendaCalendar" class="agenda-calendar"></div></section></div>
 </section>
 <section class="agenda-face" data-agenda-face-panel="nutrition"><div id="nutritionCalendarRoot"></div></section>
 </div>
@@ -209,18 +211,18 @@
 <div class="page-heading">
 <div>
 <p class="eyebrow">INSUMOS Y DOSIS</p>
-<h2>Recetas</h2>
-<p class="subtle">Productos, composiciones versionadas y cálculo por litro.</p>
+<h2>Sustratos e insumos</h2>
+<p class="subtle">Primero cargá los insumos; después combinalos en una receta de sustrato.</p>
 </div>
 </div>
 <nav class="hub-switch" aria-label="Universo cultivo"><button data-view="cultivation">Cultivos y lotes</button><button class="active" data-view="recipes">Recetas e insumos</button></nav>
 <div class="module-tabs" role="tablist">
-<button class="module-tab active" data-recipe-tab="recipes">Recetas</button>
-<button class="module-tab" data-recipe-tab="products">Insumos</button>
+<button class="module-tab active" data-recipe-tab="products">1 · Insumos</button>
+<button class="module-tab" data-recipe-tab="recipes">2 · Recetas de sustrato</button>
 </div>
-<section id="productsRoot" class="module-panel" data-recipe-panel="products">
+<section id="productsRoot" class="module-panel active" data-recipe-panel="products">
 </section>
-<section id="recipeListRoot" class="module-panel active" data-recipe-panel="recipes">
+<section id="recipeListRoot" class="module-panel" data-recipe-panel="recipes">
 </section>
 </section>
 <section class="view" data-view-panel="assistant">
@@ -594,30 +596,31 @@
 </div>
 </div>
 </dialog>
-<meta name="grow-public-base" content="https://maindave.github.io/growmanager/">
-<script>globalThis.GrowConfig=Object.freeze({SUPABASE_URL:'https://rzkocbaztxasbnchgwwy.supabase.co',SUPABASE_PUBLISHABLE_KEY:'sb_publishable_xnMIKJ72WwniGvsKuUJ0xQ_HKiX8M0K',PROJECT_ID:'rzkocbaztxasbnchgwwy',PUBLIC_URL:'https://maindave.github.io/growmanager/'});</script>
-<script src="https://maindave.github.io/growmanager/vendor/supabase.js?v=20260927-public5"></script>
-<script src="https://maindave.github.io/growmanager/supabase-client.js?v=20260927-public5"></script>
-<script src="cultivo-models.js?v=20260924-agenda4" defer>
+<meta name="grow-public-base" content="https://maindave.github.io/growmanager-sandbox/">
+<script src="supabase-config.js?v=20260929-sandbox2"></script>
+<script src="vendor/supabase.js?v=20260929-sandbox2"></script>
+<script src="supabase-client.js?v=20260929-sandbox2"></script>
+<script src="cultivo-models.js?v=20260929-sandbox-ux1" defer>
 </script>
 <script src="cultivo-db.js" defer>
 </script>
-<script src="cultivo-repository.js?v=20260928-tour1" defer>
+<script src="cultivo-repository.js?v=20260929-sandbox-ux1" defer>
 </script>
 <script src="cultivo-migration.js" defer>
 </script>
 <script src="workspaces.js?v=20260928-admin4" defer>
 </script>
 <script src="ui-sections.js?v=20260928-collapse1" defer></script>
+<script src="dashboard-customizer.js?v=20260929-sandbox1" defer></script>
 <script src="app-update.js?v=20260928-app2" defer></script>
 <script src="onboarding-tour.js?v=20260928-tour2" defer></script>
-<script src="agenda.js?v=20260927-visual1" defer></script>
+<script src="agenda.js?v=20260929-sandbox-ux1" defer></script>
 <script src="operations.js?v=20260927-history2" defer></script>
-<script src="cultivation.js?v=20260924-agenda4" defer>
+<script src="cultivation.js?v=20260929-sandbox-ux1" defer>
 </script>
 <script src="products.js" defer>
 </script>
-<script src="recipes.js?v=20260927-library1" defer>
+<script src="recipes.js?v=20260929-sandbox-ux1" defer>
 </script>
 <script src="nutrition-calendar.js?v=20260924-agenda4" defer></script>
 <script src="assistant.js?v=20260927-journal1" defer></script>
