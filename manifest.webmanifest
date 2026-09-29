@@ -1,6 +1,6 @@
 {
-  "name": "GrowManager",
-  "short_name": "GrowManager",
+  "name": "GrowManager Sandbox",
+  "short_name": "GM Sandbox",
   "description": "Gestión de cultivos, agenda, bitácora y control del Wemos.",
   "start_url": "./",
   "scope": "./",

@@ -1,9 +1,8 @@
-name: Deploy Growmanager to GitHub Pages
+name: Deploy GrowManager Sandbox
 
 on:
   push:
-    branches:
-      - v2.5-cultivo
+    branches: [main, sandbox]
   workflow_dispatch:
 
 permissions:
@@ -12,81 +11,34 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages
+  group: sandbox-pages
   cancel-in-progress: true
 
 jobs:
-  deploy:
-    env:
-      HAS_ANDROID_SIGNING: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' }}
+  validate-and-deploy:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 22
-
-      - name: Enable pnpm
-        run: corepack enable
-
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Build static site
+        run: corepack enable && pnpm install --frozen-lockfile
+      - name: Protect production isolation
         run: |
-          pnpm run web:sync
-          touch www/.nojekyll
-
-      - name: Setup Java for Android
-        if: ${{ env.HAS_ANDROID_SIGNING == 'true' }}
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: '21'
-
-      - name: Sync Android project
-        if: ${{ env.HAS_ANDROID_SIGNING == 'true' }}
-        run: pnpm exec cap sync android
-
-      - name: Restore Android signing key
-        if: ${{ env.HAS_ANDROID_SIGNING == 'true' }}
-        env:
-          KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
-        run: echo "$KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/growmanager-release.jks"
-
-      - name: Build signed Android APK
-        if: ${{ env.HAS_ANDROID_SIGNING == 'true' }}
-        env:
-          ANDROID_KEYSTORE_PATH: ${{ runner.temp }}/growmanager-release.jks
-          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
-          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
-          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
-        run: |
-          chmod +x android/gradlew
-          cd android
-          ./gradlew assembleRelease
-
-      - name: Publish Android download
-        if: ${{ env.HAS_ANDROID_SIGNING == 'true' }}
-        run: |
-          mkdir -p www/downloads
-          cp android/app/build/outputs/apk/release/app-release.apk www/downloads/growmanager-latest.apk
-          node -e "const fs=require('fs');const p='www/app-version.json';const v=JSON.parse(fs.readFileSync(p));v.apkAvailable=true;v.publishedAt=new Date().toISOString();fs.writeFileSync(p,JSON.stringify(v,null,2)+'\\n')"
-
-      - name: Configure Pages
-        uses: actions/configure-pages@v5
-
-      - name: Upload site
-        uses: actions/upload-pages-artifact@v3
+          grep -q "bpjcrfdsftjewjfspjpm" supabase-config.js
+          if grep -q "rzkocbaztxasbnchgwwy" supabase-config.js; then exit 1; fi
+      - name: Validate domain and database schema
+        run: pnpm run test:domain && pnpm run test:supabase:schema
+      - name: Build sandbox site
+        run: pnpm run web:sync && touch www/.nojekyll
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
         with:
           path: www
-
-      - name: Deploy
+      - name: Deploy sandbox
         id: deployment
         uses: actions/deploy-pages@v4
