@@ -83,8 +83,9 @@
     const cultivation=data.cultivations.find(c=>c.id===lot.cultivationId);
     const tabs=[['today','Hoy'],['history','Historial'],['plan','Plan'],['data','Datos']];
     const upcoming=TodayModels.upcoming(data.events.filter(e=>e.lotId===lot.id),Agenda.occurrences);
-    const content=tab==='today'?`<h3>Próximo en esta tanda</h3>${upcoming.length?upcoming.map(eventRow).join(''):'<p class="subtle">No hay próximos eventos pendientes para esta tanda.</p>'}`
-      :tab==='history'?'<h3>Lo que se realizó</h3><p class="subtle">Consultá los riegos, actividades e incidentes de esta tanda en la bitácora existente.</p><button class="secondary-button" data-lot-link="history">Ver historial de la tanda →</button>'
+    const history=records.filter(r=>r.lotId===lot.id||r.metadata?.lotId===lot.id).slice(0,20);
+    const content=tab==='today'?`<button class="primary-button" data-daily-type="observation" data-lot-id="${esc(lot.id)}">+ Registrar en esta tanda</button><h3>Próximo en esta tanda</h3>${upcoming.length?upcoming.map(eventRow).join(''):'<p class="subtle">No hay próximos eventos pendientes para esta tanda.</p>'}`
+      :tab==='history'?`<h3>Historial de esta tanda</h3>${history.map(r=>`<article class="today-record"><div><small>${time(r.occurredAt)}</small><strong>${esc(r.title)}</strong><p>${esc(r.description||'')}</p>${r.source==='agenda'?'<small>Realizado desde Agenda</small>':''}</div></article>`).join('')||'<p class="subtle">Todavía no hay registros en esta tanda.</p>'}<button class="secondary-button" data-lot-link="history">Ver historial de la tanda →</button>`
       :tab==='plan'?'<h3>Tu planificación</h3><p class="subtle">El calendario conserva los eventos y responsables. Nutrición muestra el programa y las etapas confirmadas.</p><div class="inline-actions"><button class="secondary-button" data-lot-link="agenda">Ver agenda de la tanda →</button><button class="secondary-button" data-lot-link="nutrition">Ver nutrición →</button></div>'
       :`<h3>Datos de la tanda</h3><dl class="lot-data"><div><dt>Cultivo</dt><dd>${esc(cultivation?.name||'Sin definir')}</dd></div><div><dt>Tabla nutricional</dt><dd>${esc(NutritionCalendar.PROFILE_LABELS[NutritionCalendar.profileKey(lot)])}</dd></div><div><dt>Estado</dt><dd>${lot.active?'Activa':'Inactiva'}</dd></div></dl><p class="subtle">${esc(lot.description||'Sin descripción.')}</p>${editable()?'<button class="secondary-button" data-lot-link="edit">Editar datos de la tanda →</button>':'<p class="field-help">Tu acceso a este proyecto es de lectura.</p>'}`;
     root.innerHTML=`<div class="page-heading"><div><p class="project-subtitle">${esc(cultivation?.name||'Tanda')}</p><h2>${esc(lot.name)}</h2><p class="subtle">${esc(stage(lot))} · ${esc(TodayModels.lotAge(lot))}</p></div></div><div class="lot-phase">${phase(lot)}</div><dl class="lot-dates"><div><dt>Inicio</dt><dd>${date(lot.timelineStartedOn)}</dd></div><div><dt>Fin estimado</dt><dd>${NutritionCalendar.profileKey(lot)==='mothers'?'Continuo':date(lot.timelineEndOn)}</dd></div></dl><nav class="context-tabs" aria-label="Secciones de la tanda">${tabs.map(([id,label])=>`<button class="${id===tab?'active':''}" data-lot-tab="${id}" aria-current="${id===tab?'page':'false'}">${label}</button>`).join('')}</nav><section class="lot-context-content">${content}</section>`;
@@ -98,8 +99,8 @@
   }
   function showRegister() {
     const canEdit=editable();
-    $('quickRegisterDialog').querySelectorAll('[data-existing-action]').forEach(b=>b.disabled=!canEdit&&b.dataset.existingAction!=='assistant');
-    $('registerRoleNote').textContent=canEdit?'Los registros y eventos usan sus formularios actuales.':'Este proyecto es de lectura. Podés consultar al asistente.';
+    $('quickRegisterDialog').querySelectorAll('[data-existing-action],[data-daily-type]').forEach(b=>b.disabled=!canEdit&&b.dataset.existingAction!=='assistant');
+    $('registerRoleNote').textContent=canEdit?'Registrá lo realizado o planificá una tarea futura.':'Este proyecto es de lectura. Podés consultar al asistente.';
     $('quickRegisterDialog').showModal();
   }
   async function existingAction(action) {

@@ -12,7 +12,7 @@
 <script src="sandbox-storage.js?v=1"></script>
 <script>document.documentElement.dataset.theme=localStorage.getItem("growmanager.theme")||"light"</script>
 <link rel="stylesheet" href="style.css?v=20260929-sandbox-ux1">
-<link rel="stylesheet" href="ui-foundations.css?v=20260930-phase1">
+<link rel="stylesheet" href="ui-foundations.css?v=20260930-phase2">
 </head>
 <body>
 <div class="sandbox-banner" role="status"><strong>SANDBOX</strong><span>Entorno de pruebas · los datos no pertenecen a producción</span></div>
@@ -147,6 +147,7 @@
 <nav class="agenda-face-switch" aria-label="Universo agenda"><button class="active" type="button" data-agenda-face="events">Calendario</button><button type="button" data-agenda-face="nutrition">Nutrición</button><button type="button" data-view="operations">Bitácora</button></nav>
 <div class="agenda-book">
 <section class="agenda-face active" data-agenda-face-panel="events">
+<nav class="context-tabs" aria-label="Período de agenda"><button data-agenda-period="day">Hoy</button><button data-agenda-period="week">Semana</button><button class="active" data-agenda-period="month">Mes</button></nav><div id="agendaPeriodList" hidden></div>
 <section id="agendaNotifications" class="panel agenda-notifications" hidden><div><strong id="agendaNotificationCount">0 asignaciones nuevas</strong><p id="agendaNotificationText"></p></div><button id="readAgendaNotifications" class="secondary-button compact" type="button">Marcar leídas</button></section>
 <section class="panel agenda-toolbar"><div class="agenda-filters"><label>Cultivo o lote<select id="agendaRelation"><option value="all">Todos</option></select></label><label>Vista<select id="agendaScope"><option value="all">Todos</option><option value="mine">Asignadas a mí</option></select></label><label>Estado<select id="agendaState"><option value="active">Activos</option><option value="archived">Archivados</option></select></label></div></section>
 <details class="panel agenda-upcoming"><summary><span><span class="eyebrow">EVENTOS</span><strong id="agendaListTitle">Próximos eventos</strong></span><span class="collapse-hint">Mostrar</span></summary><div id="agendaList" class="agenda-list collapse-body"></div></details>
@@ -500,7 +501,7 @@
 <button id="openProjectHubMobile" type="button"><span data-ui-icon="folder"></span><b>Mis proyectos</b><small>Cambiar, crear o explorar demo</small></button>
 <button data-view="team"><span data-ui-icon="users"></span><b>Proyectos y miembros</b><small>Accesos y administración</small></button>
 </div>
-<dialog id="quickRegisterDialog" class="app-dialog"><div class="dialog-form"><div class="dialog-heading"><div><h3>¿Qué querés hacer?</h3><p class="subtle">Elegí uno de los registros disponibles.</p></div><button class="icon-button" value="cancel" type="button" aria-label="Cerrar">×</button></div><div class="quick-actions"><button class="secondary-button" data-existing-action="record"><span data-ui-icon="history"></span><span><strong>Registrar una actividad</strong><small>Usar el formulario de la bitácora</small></span></button><button class="secondary-button" data-existing-action="event"><span data-ui-icon="calendar"></span><span><strong>Planificar un evento</strong><small>Abrir el calendario actual</small></span></button><button class="secondary-button" data-existing-action="assistant"><span data-ui-icon="spark"></span><span><strong>Escribir o dictar al asistente</strong><small>Revisar su propuesta antes de guardar</small></span></button></div><p id="registerRoleNote" class="field-help"></p></div></dialog>
+<dialog id="quickRegisterDialog" class="app-dialog"><div class="dialog-form"><div class="dialog-heading"><div><h3>¿Qué querés hacer?</h3><p class="subtle">¿Qué hiciste? Elegí una tarea para registrarla.</p></div><button class="icon-button" value="cancel" type="button" aria-label="Cerrar">×</button></div><div class="quick-actions daily-type-grid"><button class="secondary-button" data-daily-type="irrigation">Riego</button><button class="secondary-button" data-daily-type="pruning">Poda</button><button class="secondary-button" data-daily-type="transplant">Trasplante</button><button class="secondary-button" data-daily-type="measurement">Medición</button><button class="secondary-button" data-daily-type="application">Aplicación</button><button class="secondary-button" data-daily-type="observation">Observación</button><button class="secondary-button" data-daily-type="incident">Incidente</button><button class="secondary-button" data-daily-type="stage_change">Cambio de etapa</button><button class="secondary-button" data-existing-action="event"><span data-ui-icon="calendar"></span><span><strong>Planificar un evento</strong><small>Abrir el calendario actual</small></span></button><button class="secondary-button" data-existing-action="assistant"><span data-ui-icon="spark"></span><span><strong>Escribir o dictar al asistente</strong><small>Revisar su propuesta antes de guardar</small></span></button></div><p id="registerRoleNote" class="field-help"></p></div></dialog>
 <dialog id="restartDeviceDialog" class="app-dialog"><div class="dialog-form"><div class="dialog-heading"><div><p class="eyebrow">REINICIO SEGURO</p><h3>¿Reiniciar el Wemos?</h3></div><button id="closeRestartDevice" class="icon-button" type="button">×</button></div><p class="dialog-copy">El dispositivo dejará de responder durante algunos segundos. La configuración guardada se conservará.</p><div class="form-actions split"><button id="cancelRestartDevice" class="secondary-button" type="button">Cancelar</button><button id="confirmRestartDevice" class="danger-button" type="button">Sí, reiniciar</button></div></div></dialog>
 </div>
 <button id="voiceAssistantButton" class="voice-fab" type="button" data-state="idle" aria-label="Abrir asistente" title="Arrastrá para mover · Tocá para abrir"><img src="assets/grow-agent-orb.png" alt="" draggable="false"><small id="voiceAssistantStatus"></small></button>
@@ -509,6 +510,7 @@
 <dialog id="appTourDialog" class="app-dialog tour-dialog"><div class="dialog-form"><div class="wizard-progress" id="tourProgress"></div><div class="tour-copy"><span id="tourIcon">⌂</span><div><p class="eyebrow" id="tourEyebrow">RECORRIDO</p><h3 id="tourTitle">Inicio</h3><p id="tourDescription"></p></div></div><div class="dialog-actions"><button id="tourExit" class="secondary-button" type="button">Salir de la guía</button><span></span><button id="tourPrevious" class="secondary-button" type="button">Anterior</button><button id="tourNext" class="primary-button" type="button">Siguiente</button></div></div></dialog>
 <dialog id="onboardingDialog" class="app-dialog onboarding-dialog"><form id="onboardingForm" class="dialog-form"><div class="dialog-heading"><div><p class="eyebrow">PRIMEROS PASOS</p><h3>Prepará tu espacio en GrowManager</h3><p class="subtle">Podés empezar acompañado, desde cero o recorrer una demostración.</p></div><button id="closeOnboarding" class="icon-button" type="button" value="cancel" aria-label="Cerrar">×</button></div><div class="onboarding-options"><label><input type="radio" name="mode" value="base" checked><span><b>Proyecto base</b><small>Incluye un cultivo y espacios Vegetativo y Floración, listos para editar.</small></span></label><label><input type="radio" name="mode" value="blank"><span><b>Empezar de cero</b><small>Crea un proyecto vacío y te guía desde la sección Cultivo.</small></span></label><label><input type="radio" name="mode" value="demo"><span><b>Ver proyecto de muestra</b><small>Recorré datos reales anonimizados en modo lectura. Tu proyecto privado queda aislado.</small></span></label></div><label id="onboardingNameField">Nombre del proyecto<input name="name" value="Mi cultivo" maxlength="80" required></label><div id="onboardingMessage" class="message"></div><div class="form-actions"><button class="primary-button" type="submit">Continuar</button></div></form></dialog>
 <dialog id="voiceAssistantDialog" class="app-dialog voice-dialog"><div class="dialog-form"><div class="dialog-heading"><div><p class="eyebrow">ASISTENTE RÁPIDO</p><h3>Escribir, dictar o planificar</h3></div><button class="icon-button" type="button" onclick="document.getElementById('voiceAssistantDialog').close()">×</button></div><label>¿Qué necesitás registrar o consultar?<textarea id="voiceTranscript" rows="4" maxlength="2000" placeholder="Ej. Hoy regué las madres con la receta vegetativa, 4 litros, pH 6.2. Mañana revisar humedad."></textarea></label><p class="field-help">Podés pegar un texto completo o dictarlo. Nada se guarda hasta que confirmes.</p><div id="voiceAssistantError" class="message error" hidden></div><section id="voiceProposal" class="assistant-proposal" hidden></section><div class="dialog-actions voice-actions"><button id="cancelVoiceAction" class="secondary-button" type="button">Cancelar</button><button id="dictateVoiceText" class="secondary-button" type="button">🎙 Dictar</button><button id="processVoiceText" class="secondary-button" type="button">Consultar IA</button><button id="confirmVoiceAction" class="primary-button" type="button" disabled>Confirmar y guardar</button></div></div></dialog>
+<dialog id="dailyRecordDialog" class="app-dialog"><form id="dailyRecordForm" class="dialog-form"><div class="dialog-heading"><div><h3>Registrar lo realizado</h3><p class="subtle">Se guardará en el historial de la tanda.</p></div><button id="closeDailyRecord" class="icon-button" type="button" aria-label="Cerrar registro">×</button></div><label>Qué hiciste<select name="type"></select></label><label>Tanda<select name="lotId" required></select></label><label>Cuándo<input name="at" type="datetime-local" required></label><fieldset id="dailyWaterFields" class="form-grid two"><legend>Datos del riego (opcionales)</legend><label>Agua (L)<input name="waterLiters" type="number" min="0.001" step="0.001"></label><label>pH<input name="ph" type="number" min="0" max="14" step="0.01"></label><label>EC (mS/cm)<input name="ec" type="number" min="0" step="0.001"></label></fieldset><label>Notas<textarea name="notes" rows="3" maxlength="1200" placeholder="Qué hiciste o qué observaste"></textarea></label><p class="field-help">Si ya lo planificaste en Agenda, marcá ese evento como realizado para evitar registrarlo dos veces.</p><p id="dailyRecordMessage" role="status" class="field-help"></p><button type="submit" class="primary-button">Guardar registro</button></form></dialog>
 <dialog id="operationDialog" class="app-dialog"><form id="operationForm" class="dialog-form"><div class="dialog-heading"><div><p class="eyebrow">NUEVO REGISTRO</p><h3>Actividad o incidente</h3></div><button id="closeOperationDialog" class="icon-button" type="button">×</button></div><div class="form-grid two"><label>Tipo<select name="kind"><option value="activity">Actividad</option><option value="incident">Incidente</option></select></label><label>Categoría<select name="category"><option value="general">General</option><option value="irrigation">Riego</option><option value="transplant">Trasplante</option><option value="pruning">Poda</option><option value="pests">Plagas</option><option value="fungus">Hongos</option><option value="lighting">Iluminación</option><option value="maintenance">Mantenimiento</option><option value="power">Electricidad</option></select></label><label>Cultivo<select id="operationCultivation" name="cultivationId"><option value="">General del proyecto</option></select></label><label>Lote<select id="operationLot" name="lotId"><option value="">Sin lote específico</option></select></label><label>Fecha y hora<input id="operationOccurredAt" name="occurredAt" type="datetime-local" required></label><label>Importancia<select name="severity"><option value="info">Informativa</option><option value="warning">Advertencia</option><option value="critical">Crítica</option></select></label></div><label>Título<input name="title" maxlength="120" required></label><label>Detalle<textarea name="description" maxlength="1200" rows="4"></textarea></label><div class="form-actions split"><button class="secondary-button" type="button" onclick="document.getElementById('operationDialog').close()">Cancelar</button><button class="primary-button" type="submit">Guardar en Supabase</button></div></form></dialog>
 <dialog id="agendaEventDialog" class="app-dialog wide-dialog">
 <form id="agendaEventForm" class="dialog-form">
@@ -556,7 +558,7 @@
 </script>
 <script src="cultivo-db.js" defer>
 </script>
-<script src="cultivo-repository.js?v=20260929-sandbox-ux1" defer>
+<script src="cultivo-repository.js?v=20260930-phase2" defer>
 </script>
 <script src="cultivo-migration.js" defer>
 </script>
@@ -565,10 +567,10 @@
 <script src="ui-sections.js?v=20260928-collapse1" defer></script>
 <script src="dashboard-customizer.js?v=20260929-sandbox1" defer></script>
 <script src="app-update.js?v=20260928-app2" defer></script>
-<script src="onboarding-tour.js?v=20260930-phase1" defer></script>
-<script src="agenda.js?v=20260930-phase1" defer></script>
-<script src="operations.js?v=20260930-phase1" defer></script>
-<script src="cultivation.js?v=20260930-phase1" defer>
+<script src="onboarding-tour.js?v=20260930-phase2" defer></script>
+<script src="agenda.js?v=20260930-phase2" defer></script>
+<script src="operations.js?v=20260930-phase2" defer></script>
+<script src="cultivation.js?v=20260930-phase2" defer>
 </script>
 <script src="products.js" defer>
 </script>
@@ -582,9 +584,10 @@
 <script src="environment-history.js?v=20260925-diagnostics1" defer></script>
 <script src="auth.js?v=20260927-public5" defer>
 </script>
-<script src="today-models.js?v=20260930-phase1" defer></script>
-<script src="today.js?v=20260930-phase1" defer></script>
-<script src="app.js?v=20260930-phase1" defer>
+<script src="daily-models.js?v=20260930-phase2" defer></script><script src="daily.js?v=20260930-phase2" defer></script>
+<script src="today-models.js?v=20260930-phase2" defer></script>
+<script src="today.js?v=20260930-phase2" defer></script>
+<script src="app.js?v=20260930-phase2" defer>
 </script>
 </body>
 </html>

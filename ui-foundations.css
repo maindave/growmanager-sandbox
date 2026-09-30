@@ -47,3 +47,4 @@ body:has(#mobileMoreMenu:not([hidden])) .voice-fab,body:has(dialog[open]) .voice
 html:root[data-theme="light"] .panel,html:root[data-theme="light"] .cultivation-hero{background:var(--surface);box-shadow:none}
 .section-collapse-button{min-width:44px;min-height:44px;font-size:12px}
 @media(max-width:760px){main{padding-left:16px;padding-right:16px}}
+.daily-type-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.daily-type-grid button{justify-content:center}.daily-type-grid [data-existing-action]{grid-column:1/-1}#dailyWaterFields{border:1px solid var(--border);padding:16px;border-radius:12px}.timeline-date{margin:24px 0 8px;font-size:14px;color:var(--text-muted)}.operation-list{border-left:2px solid var(--border);padding-left:16px}.agenda-event-actions small{display:block;max-width:180px;color:var(--text-muted)}.lot-context-content>.primary-button{margin-bottom:24px}
