@@ -1,5 +1,5 @@
 (()=>{'use strict';
-const DEFINITIONS={environment:'Temperatura y humedad',cultivations:'Cultivos concurrentes',agenda:'Próximos eventos',systems:'Luces y climatización',telemetry:'Datos del dispositivo',energy:'Consumo de energía'};
+const DEFINITIONS={recent:'Actividad reciente',environment:'Temperatura y humedad',cultivations:'Cultivos concurrentes',agenda:'Próximos eventos',systems:'Luces y climatización',telemetry:'Datos del dispositivo',energy:'Consumo de energía'};
 const key=()=>`growmanager.dashboard.widgets.${CultivoRepository.getCurrentWorkspace()?.id||'default'}`;
 function current(){try{return{...Object.fromEntries(Object.keys(DEFINITIONS).map(name=>[name,true])),...JSON.parse(localStorage.getItem(key())||'{}')}}catch{return Object.fromEntries(Object.keys(DEFINITIONS).map(name=>[name,true]))}}
 function apply(){const state=current();document.querySelectorAll('[data-dashboard-widget]').forEach(node=>node.hidden=state[node.dataset.dashboardWidget]===false)}
