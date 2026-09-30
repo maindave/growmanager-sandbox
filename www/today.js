@@ -100,7 +100,7 @@
   function showRegister() {
     const canEdit=editable();
     $('quickRegisterDialog').querySelectorAll('[data-existing-action],[data-daily-type]').forEach(b=>b.disabled=!canEdit&&b.dataset.existingAction!=='assistant');
-    $('registerRoleNote').textContent=canEdit?'Registrá lo realizado o planificá una tarea futura.':'Este proyecto es de lectura. Podés consultar al asistente.';
+    $('registerRoleNote').textContent=!CultivoRepository.getCurrentWorkspace()?'Cargando el proyecto. Cerrá y volvé a abrir en un momento.':canEdit?'Registrá lo realizado o planificá una tarea futura.':'Este proyecto es de lectura. Podés consultar al asistente.';
     $('quickRegisterDialog').showModal();
   }
   async function existingAction(action) {
