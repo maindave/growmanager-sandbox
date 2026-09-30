@@ -50,3 +50,11 @@ La validación previa aislada y la compilación Android se realizaron sobre la c
 Destino: https://maindave.github.io/growmanager-sandbox/. Copia de trabajo: /private/tmp/growmanager-sandbox. Verificar allí login, proyectos, permisos y vistas con una sesión de pruebas. Las capturas anteriores contienen datos de otra instancia y no se publican en este repositorio.
 
 La fase 2 requiere aprobación posterior y análisis independiente del registro universal, cronología y relación plan → ejecución. No iniciarla hasta cerrar las verificaciones de esta fase.
+
+## Cierre de revisión en sandbox publicado
+
+Validado con sesión de administrador el 30/09/2026: carga de Hoy, navegación móvil, cultivo y espacios existentes, creación y persistencia del lote «Prueba UX · Fase 1», ficha Tanda, enlace a Bitácora con lote y período completo seleccionados, Agenda mensual, Nutrición con el lote de prueba, menú Más, apertura/cierre de Registrar y carga de los cuatro canales de Control. No se accionaron relés ni se cambiaron automatizaciones. Nutrición no desborda horizontalmente a 390 px.
+
+Se publican ajustes finales de superficie neutra, margen móvil y controles de expansión de 44 px. Capturas del sandbox se conservan localmente en `ui-captures/sandbox-fase1` de la carpeta APP-V2.5, fuera del repositorio público.
+
+Límites de validación: no se probaron sesiones viewer/editor, onboarding desde cuenta nueva, cambio entre proyectos (sólo uno disponible), ejecución IA, guardados de riego/actividad ni un dispositivo Android. Esos puntos no se consideran verificados por la compilación o la inspección de código. No hubo migraciones ni publicación en producción. El lote de prueba permanece identificable en el sandbox.

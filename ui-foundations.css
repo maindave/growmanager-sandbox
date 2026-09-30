@@ -44,3 +44,6 @@ html:root[data-theme="light"] body{background:var(--bg);background-image:none}
 .today-layout{align-items:start}.dashboard-system{grid-template-columns:40px minmax(0,1fr) 16px}
 body:has(#mobileMoreMenu:not([hidden])) .voice-fab,body:has(dialog[open]) .voice-fab{visibility:hidden}
 @media(max-width:760px){.main-content{padding-left:16px;padding-right:16px}}
+html:root[data-theme="light"] .panel,html:root[data-theme="light"] .cultivation-hero{background:var(--surface);box-shadow:none}
+.section-collapse-button{min-width:44px;min-height:44px;font-size:12px}
+@media(max-width:760px){main{padding-left:16px;padding-right:16px}}
