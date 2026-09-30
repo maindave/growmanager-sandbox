@@ -17,6 +17,7 @@
     if(input.type==='incident')return {store:'logs',value:{kind:'incident',category:'general',title:'Incidente',description:input.notes||'',severity:'warning',occurredAt:at.toISOString(),metadata:{...shared,lotName:lot.name,source:'daily-register'}}};
     return {store:'activities',value:{...shared,spaceId:lot.spaceId||null,type:input.type,occurredAt:at.toISOString(),observations:input.notes||'',details:{source:'daily-register'}}};
   }
-  function completedAt(event,history) {return history.find(row=>row.eventId===event.id&&row.action==='status_changed'&&row.details?.status==='completed')?.createdAt||null;}
-  globalThis.DailyModels=Object.freeze({TYPES,range,build,completedAt});
+  function completedAt(event,history) {if(event.metadata?.execution?.completedAt)return event.metadata.execution.completedAt;return history.find(row=>row.eventId===event.id&&row.action==='status_changed'&&row.details?.status==='completed')?.createdAt||null;}
+  function executionText(value){return [value.waterLiters!=null?`${value.waterLiters} L totales`:'',value.ph!=null?`pH ${value.ph}`:'',value.ec!=null?`EC ${value.ec}`:'',value.recipe?`${value.recipe.name} · v${value.recipe.version}`:'',value.notes||''].filter(Boolean).join(' · ')}
+  globalThis.DailyModels=Object.freeze({TYPES,range,build,completedAt,executionText});
 })();

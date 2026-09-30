@@ -13,3 +13,5 @@ const day=M.range('day',new Date(2026,8,30,12));assert.equal(day.start.getHours(
 assert.equal(M.completedAt({id:'a'},[{eventId:'b',action:'status_changed',details:{status:'completed'},createdAt:'wrong'},{eventId:'a',action:'status_changed',details:{status:'completed'},createdAt:at}]),at);
 assert.equal(M.completedAt({id:'a'},[]),null);
 console.log('Daily models: passed');
+assert.equal(M.completedAt({id:'a',metadata:{execution:{completedAt:'2026-02-01'}}},[]),'2026-02-01');
+assert.equal(M.executionText({waterLiters:2,ph:6,ec:1.2,notes:'Prueba',recipe:{name:'Base',version:3}}),'2 L totales · pH 6 · EC 1.2 · Base · v3 · Prueba');
