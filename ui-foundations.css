@@ -114,3 +114,9 @@ input:not([type="checkbox"]):not([type="radio"]),select,textarea{background:var(
 /* Existing accent choice is reserved for identity icons. */
 :root{--identity-accent:#8073a5}:root[data-accent="blue"]{--identity-accent:#5080b8}:root[data-accent="teal"]{--identity-accent:#32948c}:root[data-accent="green"]{--identity-accent:#4c9160}:root[data-accent="orange"]{--identity-accent:#b97c44}:root[data-accent="demo"]{--identity-accent:#2494a0}
 .brand-mark,.project-hub-icon,.recipe-symbol,.empty-icon,.tour-copy>span{color:var(--identity-accent);background:var(--surface-secondary)}
+/* Connect is opt-in; hide device-only surfaces before initialization too. */
+html:not([data-connect="true"]) :is([data-connect-only],[data-view="control"],#connectionBadge,#mobileStatus,[data-dashboard-widget="systems"],[data-dashboard-widget="environment"],[data-dashboard-widget="telemetry"],[data-dashboard-widget="energy"],#sensorRecoveryPanel){display:none!important}
+html:not([data-connect="true"]) .today-layout>.today-crops{grid-row:auto}
+html:not([data-connect="true"]) .today-layout>.today-recent{grid-row:1}
+.connect-toggle{display:flex;align-items:center;gap:12px;margin:24px 0 12px}.connect-toggle input{min-height:24px;width:20px;height:20px}.connect-channel-settings{margin:12px 0}.connect-channel-settings summary{cursor:pointer;font-size:.875rem;color:var(--text-muted)}
+@media(max-width:760px){html:not([data-connect="true"]) .today-layout>.today-recent{grid-row:auto}}

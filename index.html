@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="es">
+<html lang="es" data-connect="false">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -12,7 +12,7 @@
 <script src="sandbox-storage.js?v=1"></script>
 <script>document.documentElement.dataset.theme=localStorage.getItem("growmanager.theme")||"light"</script>
 <link rel="stylesheet" href="style.css?v=20260929-sandbox-ux1">
-<link rel="stylesheet" href="ui-foundations.css?v=20260930-phase3">
+<link rel="stylesheet" href="ui-foundations.css?v=20260930-phase4">
 </head>
 <body>
 <div class="sandbox-banner" role="status"><strong>SANDBOX</strong><span>Entorno de pruebas · los datos no pertenecen a producción</span></div>
@@ -60,11 +60,11 @@
 <button class="nav-item" data-view="recipes">◇ Recetas e insumos</button>
 <button class="nav-item" data-view="operations">≡ Bitácora</button>
 <button class="nav-item" data-view="assistant">✦ Asistente IA</button>
-<p class="nav-separator">Dispositivos</p>
+<p class="nav-separator" data-connect-only>Dispositivos</p>
 <button class="nav-item" data-view="control">◉ Control</button>
 <p class="nav-separator">Proyecto</p>
 <button id="openProjectHubNav" class="nav-item" type="button">◇ Mis proyectos</button>
-<button class="nav-item" data-view="team">◎ Proyectos y miembros</button>
+<button class="nav-item" data-view="team">◎ Proyectos y miembros</button><button class="nav-item" data-view="integrations">Configuración / Integraciones</button>
 </nav>
 <div id="cloudAccount" class="cloud-account" hidden>
 <label class="workspace-picker">Proyecto<select id="workspaceSelect" aria-label="Proyecto activo">
@@ -260,21 +260,17 @@
 </section>
 </section>
 <section id="operationsView" class="view" data-view-panel="operations"><div class="page-heading"><div><h2>Bitácora</h2><p class="subtle">Todo lo realizado: riegos, podas, trasplantes, observaciones, incidentes y cambios del sistema.</p></div><button id="newOperationButton" class="primary-button" type="button">+ Nuevo registro</button></div><button id="advancedOperationButton" class="text-button" type="button">Registro avanzado de bitácora</button><div id="operationsMessage" class="message"></div><section id="operationSummary" class="journal-summary"></section><section class="panel journal-panel" data-collapsible data-collapse-key="journal-records" data-default-open="true"><div class="section-heading"><div><p class="eyebrow">Historial</p><h3>Registros del cultivo</h3></div></div><div class="journal-toolbar"><label>Tipo<select id="operationFilter"><option value="all">Todo</option><option value="irrigation">Riegos</option><option value="activity">Actividades</option><option value="incident">Incidentes</option><option value="system">Sistema</option><option value="alerts">Alertas activas</option></select></label><label>Cultivo o lote<select id="operationRelation"><option value="all">Todos</option></select></label><label>Período<select id="operationPeriod"><option value="30">Últimos 30 días</option><option value="90">Últimos 90 días</option><option value="all">Todo el ciclo</option></select></label><input id="operationSearch" type="search" placeholder="Buscar poda, riego, receta…" aria-label="Buscar en la bitácora"></div><div id="operationList" class="operation-list"></div></section></section>
+<section class="view" data-view-panel="integrations"><div class="page-heading"><h2>Configuración / Integraciones</h2></div><section class="panel"><h3>GrowManager Connect</h3><p class="subtle">Conectá equipos y sensores opcionales. Podés usar GrowManager sin ellos.</p><label class="connect-toggle"><input id="connectEnabled" type="checkbox"> Habilitar GrowManager Connect en este navegador</label><p class="field-help">Al desactivarlo, GrowManager deja de consultar el dispositivo. Los equipos conservan su funcionamiento.</p><button class="secondary-button" data-view="connection" data-connect-only>Configurar conexión</button><button class="text-button" data-view="connectAdvanced" data-connect-only>Configuración avanzada</button></section></section>
+<section class="view" data-view-panel="connectAdvanced"><div class="page-heading"><h2>Configuración avanzada</h2></div><nav class="control-shortcuts"><button class="secondary-button" data-view="control">Volver a Control</button><button class="secondary-button" data-view="connection">Conexión · IP / hostname</button><button class="secondary-button" data-view="hardware">Hardware, pines y diagnóstico</button><button class="secondary-button" data-view="energy">Energía</button><button class="text-button" data-view="integrations">GrowManager Connect</button></nav><div id="connectAdvancedContent"></div></section>
 <section class="view" data-view-panel="control">
 <div class="page-heading">
 <div>
-<p class="eyebrow">4 canales</p>
+<p class="eyebrow">GrowManager Connect</p>
 <h2>Control</h2>
-<p class="subtle">Operación manual y configuración del sistema Arduino.</p>
+<p class="subtle">Luz, ventilación y otros equipos de tu cultivo.</p>
 </div>
 </div>
-<nav class="control-shortcuts" aria-label="Configuración Arduino">
-<button class="secondary-button alert-shortcut" data-view="operations">Bitácora y alertas <span id="operationAlertCount">0</span></button>
-<button class="secondary-button" data-view="energy">Energía</button>
-<button class="secondary-button" data-view="automation">Automatización</button>
-<button class="secondary-button" data-view="hardware">Hardware</button>
-<button class="secondary-button" data-view="connection">Conexión</button>
-</nav>
+<nav class="control-shortcuts" aria-label="Dispositivos"><button class="secondary-button" data-view="automation">Automatización</button><button class="text-button" data-view="connectAdvanced">Configuración avanzada</button></nav>
 <div id="controlMessage" class="message">
 </div>
 <div id="controlRelays" class="control-grid">
@@ -497,7 +493,7 @@
 <button data-view="assistant"><span data-ui-icon="spark"></span><b>Asistente IA</b><small>Consultar y preparar acciones</small></button>
 <button data-view="recipes"><span data-ui-icon="book"></span><b>Recetas e insumos</b><small>Fórmulas y productos</small></button>
 <button data-view="operations"><span data-ui-icon="history"></span><b>Bitácora</b><small>Todo lo realizado</small></button>
-<button data-view="control"><span data-ui-icon="sliders"></span><b>Control y dispositivos</b><small>Ambiente y configuración avanzada</small></button>
+<button data-view="integrations"><span data-ui-icon="sliders"></span><b>Configuración / Integraciones</b></button><button data-view="control"><span data-ui-icon="sliders"></span><b>Control y dispositivos</b><small>Ambiente y configuración avanzada</small></button>
 <button id="openProjectHubMobile" type="button"><span data-ui-icon="folder"></span><b>Mis proyectos</b><small>Cambiar, crear o explorar demo</small></button>
 <button data-view="team"><span data-ui-icon="users"></span><b>Proyectos y miembros</b><small>Accesos y administración</small></button>
 </div>
@@ -565,7 +561,7 @@
 <script src="workspaces.js?v=20260928-admin4" defer>
 </script>
 <script src="ui-sections.js?v=20260928-collapse1" defer></script>
-<script src="dashboard-customizer.js?v=20260929-sandbox1" defer></script>
+<script src="dashboard-customizer.js?v=20260930-phase4" defer></script>
 <script src="app-update.js?v=20260928-app2" defer></script>
 <script src="onboarding-tour.js?v=20260930-phase21" defer></script>
 <script src="agenda.js?v=20260930-phase21" defer></script>
@@ -587,7 +583,7 @@
 <script src="daily-models.js?v=20260930-phase21" defer></script><script src="daily.js?v=20260930-phase21" defer></script>
 <script src="today-models.js?v=20260930-phase21" defer></script>
 <script src="today.js?v=20260930-phase21" defer></script>
-<script src="app.js?v=20260930-phase21" defer>
+<script src="app.js?v=20260930-phase4" defer>
 </script>
 </body>
 </html>
