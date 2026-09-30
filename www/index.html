@@ -12,7 +12,7 @@
 <script src="sandbox-storage.js?v=1"></script>
 <script>document.documentElement.dataset.theme=localStorage.getItem("growmanager.theme")||"light"</script>
 <link rel="stylesheet" href="style.css?v=20260929-sandbox-ux1">
-<link rel="stylesheet" href="ui-foundations.css?v=20260930-phase5">
+<link rel="stylesheet" href="ui-foundations.css?v=20260930-phase6">
 </head>
 <body>
 <div class="sandbox-banner" role="status"><strong>SANDBOX</strong><span>Entorno de pruebas · los datos no pertenecen a producción</span></div>
@@ -40,7 +40,7 @@
 <button class="secondary-button" type="submit" data-auth-action="register">Crear cuenta</button>
 <button class="secondary-button" type="submit" formnovalidate data-auth-action="magic">Recibir enlace por email</button>
 </form>
-<p class="auth-note">Los datos del Wemos permanecen locales. La gestión del cultivo se guarda en Supabase.</p>
+<p class="auth-note">Tus cultivos se guardan en tu cuenta. La conexión de equipos es opcional.</p>
 </div>
 </section>
 <div id="appLayout" class="app-layout" hidden>
@@ -54,17 +54,17 @@
 </div>
 <nav class="main-nav" aria-label="Secciones">
 <p class="nav-separator">Tu cultivo</p>
-<button class="nav-item active" data-view="dashboard">⌂ Hoy</button>
-<button class="nav-item" data-view="cultivation">✦ Cultivos</button>
-<button class="nav-item" data-view="agenda">▣ Agenda</button>
-<button class="nav-item" data-view="recipes">◇ Recetas e insumos</button>
-<button class="nav-item" data-view="operations">≡ Bitácora</button>
-<button class="nav-item" data-view="assistant">✦ Asistente IA</button>
+<button class="nav-item active" data-view="dashboard"><span data-ui-icon="home"></span>Hoy</button>
+<button class="nav-item" data-view="cultivation"><span data-ui-icon="leaf"></span>Cultivos</button>
+<button class="nav-item" data-view="agenda"><span data-ui-icon="calendar"></span>Agenda</button>
+<button class="nav-item" data-view="recipes"><span data-ui-icon="book"></span>Recetas e insumos</button>
+<button class="nav-item" data-view="operations"><span data-ui-icon="history"></span>Bitácora</button>
+<button class="nav-item" data-view="assistant"><span data-ui-icon="spark"></span>Asistente IA</button>
 <p class="nav-separator" data-connect-only>Dispositivos</p>
-<button class="nav-item" data-view="control">◉ Control</button>
+<button class="nav-item" data-view="control"><span data-ui-icon="sliders"></span>Control</button>
 <p class="nav-separator">Proyecto</p>
-<button id="openProjectHubNav" class="nav-item" type="button">◇ Mis proyectos</button>
-<button class="nav-item" data-view="team">◎ Proyectos y miembros</button><button class="nav-item" data-view="integrations">Configuración / Integraciones</button>
+<button id="openProjectHubNav" class="nav-item" type="button"><span data-ui-icon="folder"></span>Mis proyectos</button>
+<button class="nav-item" data-view="team"><span data-ui-icon="users"></span>Proyectos y miembros</button><button class="nav-item" data-view="integrations">Configuración / Integraciones</button>
 </nav>
 <div id="cloudAccount" class="cloud-account" hidden>
 <label class="workspace-picker">Proyecto<select id="workspaceSelect" aria-label="Proyecto activo">
@@ -478,7 +478,7 @@
 </main>
 <footer>
 <span>Growmanager · V2.5</span>
-<span>Supabase + control Wemos local</span>
+<span>Gestión de cultivos</span>
 </footer>
 </div>
 <nav class="bottom-nav" aria-label="Navegación principal">
@@ -505,7 +505,7 @@
 <dialog id="welcomeWizardDialog" class="app-dialog onboarding-dialog"><form id="welcomeWizardForm" class="dialog-form"><div class="wizard-progress"><i class="active"></i><i></i><i></i></div><div class="dialog-heading"><div><p class="eyebrow">Bienvenido a growmanager</p><h3>Ya tenés un proyecto para explorar</h3></div></div><div class="welcome-demo-card"><span>◈</span><div><strong>GrowManager · Proyecto de muestra</strong><p>Te lo asignamos automáticamente en modo lectura para que veas cultivos, agenda, recetas y registros sin configurar nada. Es independiente y no da acceso a proyectos privados.</p></div></div><h4>¿Cómo querés comenzar?</h4><div class="onboarding-options welcome-options"><label><input type="radio" name="mode" value="demo" checked><span><b>Explorar la muestra</b><small>Recorré primero la herramienta y creá tu proyecto cuando quieras.</small></span></label><label><input type="radio" name="mode" value="base"><span><b>Crear proyecto base</b><small>Incluye espacios Vegetativo y Floración listos para editar.</small></span></label><label><input type="radio" name="mode" value="blank"><span><b>Crear desde cero</b><small>Comenzá con un proyecto completamente vacío.</small></span></label></div><label id="welcomeProjectName" hidden>Nombre de tu proyecto<input name="name" value="Mi cultivo" maxlength="80" required></label><div id="welcomeWizardMessage" class="message"></div><div class="form-actions split"><button id="welcomeSkipTour" class="secondary-button" type="button">Omitir guía</button><button class="primary-button" type="submit">Continuar y conocer la app</button></div></form></dialog>
 <dialog id="appTourDialog" class="app-dialog tour-dialog"><div class="dialog-form"><div class="wizard-progress" id="tourProgress"></div><div class="tour-copy"><span id="tourIcon">⌂</span><div><p class="eyebrow" id="tourEyebrow">RECORRIDO</p><h3 id="tourTitle">Inicio</h3><p id="tourDescription"></p></div></div><div class="dialog-actions"><button id="tourExit" class="secondary-button" type="button">Salir de la guía</button><span></span><button id="tourPrevious" class="secondary-button" type="button">Anterior</button><button id="tourNext" class="primary-button" type="button">Siguiente</button></div></div></dialog>
 <dialog id="onboardingDialog" class="app-dialog onboarding-dialog"><form id="onboardingForm" class="dialog-form"><div class="dialog-heading"><div><p class="eyebrow">Primeros pasos</p><h3>Prepará tu espacio en GrowManager</h3><p class="subtle">Podés empezar acompañado, desde cero o recorrer una demostración.</p></div><button id="closeOnboarding" class="icon-button" type="button" value="cancel" aria-label="Cerrar">×</button></div><div class="onboarding-options"><label><input type="radio" name="mode" value="base" checked><span><b>Proyecto base</b><small>Incluye un cultivo y espacios Vegetativo y Floración, listos para editar.</small></span></label><label><input type="radio" name="mode" value="blank"><span><b>Empezar de cero</b><small>Crea un proyecto vacío y te guía desde la sección Cultivo.</small></span></label><label><input type="radio" name="mode" value="demo"><span><b>Ver proyecto de muestra</b><small>Recorré datos reales anonimizados en modo lectura. Tu proyecto privado queda aislado.</small></span></label></div><label id="onboardingNameField">Nombre del proyecto<input name="name" value="Mi cultivo" maxlength="80" required></label><div id="onboardingMessage" class="message"></div><div class="form-actions"><button class="primary-button" type="submit">Continuar</button></div></form></dialog>
-<dialog id="voiceAssistantDialog" class="app-dialog voice-dialog"><div class="dialog-form"><div class="dialog-heading"><div><p class="eyebrow">Asistente rápido</p><h3>Escribir, dictar o planificar</h3></div><button class="icon-button" type="button" onclick="document.getElementById('voiceAssistantDialog').close()">×</button></div><label>¿Qué necesitás registrar o consultar?<textarea id="voiceTranscript" rows="4" maxlength="2000" placeholder="Ej. Hoy regué las madres con la receta vegetativa, 4 litros, pH 6.2. Mañana revisar humedad."></textarea></label><p class="field-help">Podés pegar un texto completo o dictarlo. Nada se guarda hasta que confirmes.</p><div id="voiceAssistantError" class="message error" hidden></div><section id="voiceProposal" class="assistant-proposal" hidden></section><div class="dialog-actions voice-actions"><button id="cancelVoiceAction" class="secondary-button" type="button">Cancelar</button><button id="dictateVoiceText" class="secondary-button" type="button">🎙 Dictar</button><button id="processVoiceText" class="secondary-button" type="button">Consultar IA</button><button id="confirmVoiceAction" class="primary-button" type="button" disabled>Confirmar y guardar</button></div></div></dialog>
+<dialog id="voiceAssistantDialog" class="app-dialog voice-dialog"><div class="dialog-form"><div class="dialog-heading"><div><p class="eyebrow">Asistente rápido</p><h3>Escribir, dictar o planificar</h3></div><button class="icon-button" type="button" onclick="document.getElementById('voiceAssistantDialog').close()">×</button></div><label>¿Qué necesitás registrar o consultar?<textarea id="voiceTranscript" rows="4" maxlength="2000" placeholder="Ej. Hoy regué las madres con la receta vegetativa, 4 litros, pH 6.2. Mañana revisar humedad."></textarea></label><p class="field-help">Podés pegar un texto completo o dictarlo. Nada se guarda hasta que confirmes.</p><div id="voiceAssistantError" class="message error" hidden></div><section id="voiceProposal" class="assistant-proposal" hidden></section><div class="dialog-actions voice-actions"><button id="cancelVoiceAction" class="secondary-button" type="button">Cancelar</button><button id="dictateVoiceText" class="secondary-button" type="button">Dictar</button><button id="processVoiceText" class="secondary-button" type="button">Consultar IA</button><button id="confirmVoiceAction" class="primary-button" type="button" disabled>Confirmar y guardar</button></div></div></dialog>
 <dialog id="dailyRecordDialog" class="app-dialog"><form id="dailyRecordForm" class="dialog-form"><div class="dialog-heading"><div><h3>Registrar lo realizado</h3><p class="subtle">Se guardará en el historial de la tanda.</p></div><button id="closeDailyRecord" class="icon-button" type="button" aria-label="Cerrar registro">×</button></div><label>Qué hiciste<select name="type"></select></label><label>Tanda<select name="lotId" required></select></label><label id="dailyPlanLabel">Plan relacionado<select name="eventId"></select></label><label>Cuándo<input name="at" type="datetime-local" required></label><fieldset id="dailyWaterFields" class="form-grid two"><legend>Datos del riego</legend><label>Agua total de la tanda (L)<input name="waterLiters" type="number" min="0.001" step="0.001"></label><label>pH<input name="ph" type="number" min="0" max="14" step="0.01"></label><label>EC (mS/cm)<input name="ec" type="number" min="0" step="0.001"></label><label>Receta<select name="recipeId"><option value="">Sin receta</option></select></label></fieldset><label>Notas<textarea name="notes" rows="3" maxlength="1200" placeholder="Qué hiciste o qué observaste"></textarea></label><p id="dailyRecordMessage" role="status" class="field-help"></p><button type="submit" class="primary-button">Guardar registro</button></form></dialog>
 <dialog id="operationDialog" class="app-dialog"><form id="operationForm" class="dialog-form"><div class="dialog-heading"><div><p class="eyebrow">Nuevo registro</p><h3>Actividad o incidente</h3></div><button id="closeOperationDialog" class="icon-button" type="button">×</button></div><div class="form-grid two"><label>Tipo<select name="kind"><option value="activity">Actividad</option><option value="incident">Incidente</option></select></label><label>Categoría<select name="category"><option value="general">General</option><option value="irrigation">Riego</option><option value="transplant">Trasplante</option><option value="pruning">Poda</option><option value="pests">Plagas</option><option value="fungus">Hongos</option><option value="lighting">Iluminación</option><option value="maintenance">Mantenimiento</option><option value="power">Electricidad</option></select></label><label>Cultivo<select id="operationCultivation" name="cultivationId"><option value="">General del proyecto</option></select></label><label>Lote<select id="operationLot" name="lotId"><option value="">Sin lote específico</option></select></label><label>Fecha y hora<input id="operationOccurredAt" name="occurredAt" type="datetime-local" required></label><label>Importancia<select name="severity"><option value="info">Informativa</option><option value="warning">Advertencia</option><option value="critical">Crítica</option></select></label></div><label>Título<input name="title" maxlength="120" required></label><label>Detalle<textarea name="description" maxlength="1200" rows="4"></textarea></label><div class="form-actions split"><button class="secondary-button" type="button" onclick="document.getElementById('operationDialog').close()">Cancelar</button><button class="primary-button" type="submit">Guardar registro</button></div></form></dialog>
 <dialog id="agendaEventDialog" class="app-dialog wide-dialog">
@@ -534,7 +534,7 @@
 <h3>Datos locales encontrados</h3>
 </div>
 </div>
-<p>Encontramos <strong data-local-count>0</strong> registros en IndexedDB. Podés importarlos a tu cuenta de Supabase. El respaldo local no se borrará.</p>
+<p>Encontramos <strong data-local-count>0</strong> registros en este navegador. Podés importarlos a tu cuenta. El respaldo local no se borrará.</p>
 <div data-remote-warning class="migration-warning" hidden>Esta cuenta ya contiene datos remotos. Importar puede generar registros conceptualmente duplicados.</div>
 <label data-confirm-import class="check-field" hidden>
 <input type="checkbox" data-migration-action="confirm"> Entiendo y quiero importar igualmente</label>
@@ -564,13 +564,13 @@
 <script src="dashboard-customizer.js?v=20260930-phase4" defer></script>
 <script src="app-update.js?v=20260928-app2" defer></script>
 <script src="onboarding-tour.js?v=20260930-phase21" defer></script>
-<script src="agenda.js?v=20260930-phase21" defer></script>
+<script src="agenda.js?v=20260930-phase6" defer></script>
 <script src="operations.js?v=20260930-phase21" defer></script>
 <script src="cultivation.js?v=20260930-phase21" defer>
 </script>
 <script src="products.js" defer>
 </script>
-<script src="recipes.js?v=20260929-sandbox-ux1" defer>
+<script src="recipes.js?v=20260930-phase6" defer>
 </script>
 <script src="nutrition-calendar.js?v=20260930-phase21" defer></script>
 <script src="assistant.js?v=20260927-journal1" defer></script>

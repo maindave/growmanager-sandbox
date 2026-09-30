@@ -3,7 +3,6 @@
   const $=id=>document.getElementById(id);
   const esc=value=>String(value??'').replace(/[&<>'"]/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]));
   const TYPE={irrigation:'Riego',transplant:'Trasplante',cuttings:'Esquejado',pruning:'Poda',fertilization:'Fertilización',pests:'Control de plagas',fungus:'Control de hongos',lighting:'Cambio de iluminación',cleaning:'Limpieza',harvest:'Cosecha',maintenance:'Mantenimiento',other:'Otro'};
-  const ICON={irrigation:'💧',transplant:'🪴',cuttings:'🌱',pruning:'✂️',fertilization:'🧪',pests:'🐞',fungus:'🍄',lighting:'☀️',cleaning:'🧹',harvest:'✦',maintenance:'🔧',other:'●'};
   const STATUS={pending:'Pendiente',accepted:'Aceptada',in_progress:'En curso',completed:'Completada',cancelled:'Cancelada'};
   const ACTION={created:'Creado',updated:'Editado',reassigned:'Responsables modificados',status_changed:'Estado modificado',archived:'Archivado',restored:'Restaurado'};
   let events=[],cultivations=[],lots=[],members=[],notifications=[],nutritionProgress=[],month=monthStart(new Date()),scope='all',relation='all',showArchived=false;
