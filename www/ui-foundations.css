@@ -64,3 +64,53 @@ html:root[data-theme="light"] .panel,html:root[data-theme="light"] .cultivation-
 .voice-fab{position:relative!important;inset:auto!important;width:44px!important;height:44px!important;min-width:44px;flex:0 0 44px;filter:none!important;animation:none!important;transform:none!important;box-shadow:none!important;margin:0;z-index:auto;touch-action:auto;cursor:pointer}.voice-fab img{filter:saturate(.65)}.voice-fab small{display:none}.sidebar .brand{flex-wrap:wrap}.mobile-header{flex-wrap:wrap;gap:8px}.mobile-header>.brand{flex:1;min-width:150px}.mobile-header .mini-status{order:5;margin:0;font-size:11px}.mobile-header>.voice-fab{order:3}.mobile-header .theme-mobile{order:2}
 @media(min-width:920px){.today-layout{grid-template-columns:minmax(0,1.35fr) minmax(300px,1fr);gap:24px 32px}.content-shell{padding:24px 32px 48px}.agenda-seven-days{grid-template-columns:repeat(2,minmax(0,1fr))}.today-heading{margin-bottom:16px}}
 @media(max-width:760px){.content-shell{padding-bottom:calc(88px + env(safe-area-inset-bottom))}.journal-toolbar{display:grid;grid-template-columns:1fr 1fr}.journal-toolbar input{grid-column:1/-1}.agenda-event-card{padding:12px;gap:8px}.agenda-event-actions{width:100%;justify-content:flex-end}#advancedOperationButton{font-size:12px}.today-section{min-width:0}}
+
+/* F3: shared presentation for the remaining product surfaces. */
+html:root:not([data-theme="light"]),html:root:not([data-theme="light"])[data-accent]{--bg:#141719;--surface:#1c2023;--surface-secondary:#252b2f;--border:#394147;--text:#f1f3f4;--text-muted:#aab4bc;--primary:#c5d2d9;--primary-light:#d3dce1;--primary-soft:#303c43}
+html:root body,html:root .auth-gate{background:var(--bg)}
+html:root .panel,html:root .auth-card,html:root .control-card,html:root .metric-card,html:root .cultivation-hero{background:var(--surface);box-shadow:none}
+html:root .brand-mark{box-shadow:none}
+.eyebrow,.workspace-picker,.nutrition-week-label,.tour-copy .eyebrow{letter-spacing:0;text-transform:none;font-weight:600;color:var(--text-muted)}
+html:root .primary-button{background:var(--primary);color:var(--bg);box-shadow:none;border-radius:8px}
+html:root[data-theme="light"] .primary-button{color:#fff}
+.secondary-button,.danger-button,.text-button{border-radius:8px;box-shadow:none}
+input:not([type="checkbox"]):not([type="radio"]),select,textarea{background:var(--surface);color:var(--text);border:1px solid var(--border)}
+.dialog-form label,.auth-form label,.assistant-form>label,.workspace-manager label{font-size:.875rem;line-height:1.5}
+.app-dialog{border-radius:12px;box-shadow:0 16px 48px #0004;max-height:calc(100dvh - 24px)}
+.app-dialog::backdrop{background:#10182099;backdrop-filter:blur(2px)}
+.dialog-heading h3{font-size:1.25rem;line-height:1.3}.dialog-copy{font-size:.9375rem;line-height:1.6}
+.dialog-actions,.form-actions{gap:8px;flex-wrap:wrap}.dialog-form fieldset{min-width:0}
+.empty-state{padding:32px 16px;background:transparent;box-shadow:none}.empty-state p{font-size:.875rem;line-height:1.6}.empty-icon{border-radius:10px}
+.message{border-radius:8px;font-size:.875rem;line-height:1.5;box-shadow:none}.message.info{color:var(--text-muted)}
+/* Nutrition and the recipe / supply library retain their existing grids. */
+.nutrition-week{background:var(--surface);border-radius:10px;box-shadow:none}.nutrition-week.is-current{outline:2px solid var(--text-muted)}
+.nutrition-week-label{color:var(--text);font-size:.8125rem}.nutrition-week-label b,.nutrition-status{font-size:.75rem}
+.nutrition-card-main{padding:16px}.nutrition-card-main>small,.nutrition-stage-pair span,.nutrition-targets,.nutrition-actual-select{font-size:.8125rem}
+.nutrition-stage-pair strong{font-size:.875rem;line-height:1.5}.nutrition-legend span{background:transparent;color:var(--text-muted);font-size:.75rem}
+.nutrition-detail-grid>div,.recipe-targets>div{padding:12px 0;border:0;border-bottom:1px solid var(--border);border-radius:0;background:transparent}
+.nutrition-detail-grid span,.recipe-targets span,.recipe-targets small{font-size:.8125rem}.nutrition-detail-grid p{font-size:.875rem}
+.nutrition-date-summary{background:transparent;border:0;border-bottom:1px solid var(--border);border-radius:0;padding:8px 0}.nutrition-date-summary span,.nutrition-date-summary strong{font-size:.8125rem}
+.recipe-guide{background:transparent;border:0;padding:0 0 16px}.recipe-steps span{background:transparent;border:0;border-bottom:2px solid var(--border);border-radius:0}.recipe-steps .done b{background:var(--primary-soft);color:var(--text)}
+.recipe-card:hover{transform:none}.recipe-library details{border:0;border-bottom:1px solid var(--border);border-radius:0;background:transparent}
+.recipe-library summary{padding:16px 0;font-weight:600}.recipe-library-row{padding:16px 0}.recipe-library-row p,.recipe-library-row small,.product-card>div:first-child>p,.recipe-card>p{font-size:.8125rem;line-height:1.5}
+.recipe-item-row,.supply-row{padding:16px 0;border:0;border-bottom:1px solid var(--border);border-radius:0}.recipe-detail .panel{border:0;padding:16px 0;background:transparent}
+/* Chat: distinguish speakers without nested cards or saturated surfaces. */
+.assistant-panel{margin-inline:auto;border:0;background:transparent;padding:0}.assistant-conversation{gap:20px;padding:8px 0}
+.assistant-bubble{max-width:min(85%,680px);background:transparent;border:0;border-radius:0;padding:8px 0}
+.assistant-bubble.user{background:var(--surface-secondary);border:0;border-radius:12px;padding:12px 16px}
+.assistant-bubble strong{color:var(--text-muted);font-size:.8125rem}.assistant-bubble p{font-size:.9375rem;line-height:1.65;overflow-wrap:anywhere}
+.assistant-proposal{background:transparent;border:0;border-left:3px solid var(--border);border-radius:0;padding:12px 16px}.assistant-proposal p{font-size:.875rem;line-height:1.6}
+.assistant-form{padding-top:16px}.assistant-form-actions span{font-size:.8125rem}
+/* Projects, membership, first run and ordinary administration. */
+.workspace-picker{font-size:.8125rem}.workspace-picker select,.mobile-project-bar select{min-height:44px;font-size:.875rem}.workspace-picker small{font-size:.75rem}
+.project-hub-card{background:transparent;border-radius:8px;padding:16px 12px}.project-hub-card.active,.project-hub-card:hover{background:var(--surface-secondary);border-color:var(--text-muted)}
+.project-hub-card>span:nth-child(2){min-width:0;overflow-wrap:anywhere}.project-hub-card small,.project-hub-card>b{font-size:.8125rem}
+.member-row,.member-person{background:transparent;border:0;border-bottom:1px solid var(--border);border-radius:0;padding:16px 0}.member-person-head{flex-wrap:wrap}.member-person-head>div{min-width:0;overflow-wrap:anywhere}
+.member-row small,.member-access strong,.demo-project-form label{font-size:.8125rem}.member-accesses{gap:12px}
+.project-app-tools,.welcome-demo-card{background:transparent;border:0;border-bottom:1px solid var(--border);border-radius:0;padding:16px 0}.project-app-tools small,.welcome-demo-card p{font-size:.8125rem;line-height:1.6}
+.onboarding-options span{background:transparent;border-radius:8px}.onboarding-options input:checked+span{background:var(--surface-secondary);border-color:var(--text-muted);box-shadow:none}.onboarding-options input:focus-visible+span{outline:3px solid #4784b5;outline-offset:3px}.onboarding-options small{font-size:.8125rem}
+.auth-card{border-radius:12px}.auth-card h2{font-size:1.75rem}.auth-note{font-size:.8125rem}.tour-copy p:last-child{font-size:.8125rem;line-height:1.6}
+@media(max-width:760px){.recipe-detail-heading,.member-row{flex-wrap:wrap}.recipe-detail-heading>div,.member-row>div{min-width:0}.recipe-library-toolbar{grid-template-columns:1fr}.recipe-item-row,.supply-row{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.recipe-item-row label:first-child,.supply-row label:first-child{grid-column:1/-1}.nutrition-toolbar label{min-width:0}.nutrition-grid{grid-template-columns:minmax(0,1fr)}.project-hub-list{grid-template-columns:minmax(0,1fr)}.assistant-bubble{max-width:95%}.onboarding-options{grid-template-columns:1fr}.project-hub-actions{grid-template-columns:1fr}.recipe-targets{grid-template-columns:repeat(2,minmax(0,1fr))}}
+/* Existing accent choice is reserved for identity icons. */
+:root{--identity-accent:#8073a5}:root[data-accent="blue"]{--identity-accent:#5080b8}:root[data-accent="teal"]{--identity-accent:#32948c}:root[data-accent="green"]{--identity-accent:#4c9160}:root[data-accent="orange"]{--identity-accent:#b97c44}:root[data-accent="demo"]{--identity-accent:#2494a0}
+.brand-mark,.project-hub-icon,.recipe-symbol,.empty-icon,.tour-copy>span{color:var(--identity-accent);background:var(--surface-secondary)}
